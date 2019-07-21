@@ -11,6 +11,12 @@ A script to `[start|stop|restart|update]` the server will be placed on the targe
 If this role is executed without any further configuration, it will set up a server with all default parameters.  
 You can find a reference on what parameters you can use and how you need to specify them in this Google doc from the developers: [Google Doc](https://docs.google.com/document/d/1GDLg5p9jjeIya7EgBk0ibzDtDlyQ-U_jpspOzby-JmM/edit)
 
+Get this role
+------------
+```bash
+ansible-galaxy install --roles-path ./roles/ siw36.ansible_gs_iss
+```
+
 Requirements
 ------------
 
