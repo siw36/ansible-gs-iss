@@ -1,0 +1,24 @@
+---
+# Required variables
+# gsGSLT: <steam gslt token>
+
+# Not requred variables
+# gsServerName: "some name"
+# gsGamePort: 27137
+# gsQueryPort: 12345
+# Set this to true if you only want to change the config and restart the server
+# gsConfigChange: true
+
+# gsAdminList:
+#   - <steamID64>
+
+# get the values here: https://docs.google.com/document/d/1GDLg5p9jjeIya7EgBk0ibzDtDlyQ-U_jpspOzby-JmM/edit#
+# gsMapCycleList:
+#   - Scenario_Crossing_Skirmish
+#   - Scenario_Hideout_Skirmish
+
+# add additional start parameters
+# gsAdditionalParameters: "-ruleset=OfficialRules"
+
+# copy your custom Game.ini server config
+# gsCustomConfig: true

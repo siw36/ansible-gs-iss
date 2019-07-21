@@ -1,0 +1,77 @@
+---
+- name: Check availability of SteamCMD
+  shell: which steamcmd
+  register: steamCheck
+
+- name: Fail when SteamCMD is not available
+  fail:
+    msg: SteamCMD was not found on target machine.
+  when: steamCheck.rc != 0
+
+- name: Initial install block
+  block:
+  - name: Open firewall ports
+    firewalld:
+      port: "{{ item }}/tcp"
+      permanent: yes
+      state: enabled
+      immediate: true
+    loop:
+      - "{{ gsGamePort }}"
+      - "{{ gsQueryPort }}"
+
+  - name: Create the game server directory
+    file:
+      path: "{{ gsDirectory }}"
+      state: directory
+      owner: "{{ gsUserName }}"
+      group: "{{ gsUserGroup }}"
+
+  - name: Install the game server files
+    shell: "steamcmd +login anonymous +force_install_dir {{ gsDirectory }} +app_update {{ gsID }} validate +quit"
+    args:
+      executable: /bin/bash
+  when: not (gsConfigChange | bool)
+
+- name: Create the management script
+  template:
+    src: templates/iss_server.sh.j2
+    dest: /home/steam/iss_server.sh
+    owner: "{{ gsUserName }}"
+    group: "{{ gsUserGroup }}"
+    mode: 0770
+
+- name: Stop the server
+  shell: "/home/steam/iss_server.sh stop"
+  args:
+    executable: /bin/bash
+
+# Server configuration
+- name: Create a admin list
+  lineinfile:
+    path: "{{ gsDirectory }}/Insurgency/Config/Server/Admins.txt"
+    line: "{{ item }}"
+    create: true
+  loop:
+    - "{{ gsAdminList }}"
+  when: gsAdminList is defined and gsAdminList | length > 0
+
+- name: Create a map rotation list
+  lineinfile:
+    path: "{{ gsDirectory }}/Insurgency/Config/Server/Admins.txt"
+    line: "{{ item }}"
+    create: true
+  loop:
+    - "{{ gsMapCycleList }}"
+  when: gsMapCycleList is defined and gsMapCycleList | length > 0
+
+- name: Copy a customized Game.ini
+  copy:
+    src: files/custom_Game.ini
+    dest:  "{{ gsDirectory }}/Insurgency/Config/Server/Game.ini"
+  when: gsCustomConfig | bool
+
+- name: Start the server
+  shell: "/home/steam/iss_server.sh start"
+  args:
+    executable: /bin/bash

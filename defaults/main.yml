@@ -1,0 +1,11 @@
+---
+gsUserName: steam
+gsUserGroup: steam
+gsID: 581330
+gsDirectory: /home/steam/iss
+gsQueryPort: 27131
+gsGamePort: 27102
+gsServerName: ISS Serevr deployed with the ansible role siw36.ansible_gs_iss
+gsCustomConfig: false
+gsConfigChange: false
+gsProcessName: InsurgencyServer-Linux-Shipping

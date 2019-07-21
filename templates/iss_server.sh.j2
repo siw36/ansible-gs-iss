@@ -1,0 +1,100 @@
+#!/bin/bash
+
+SERVER_PROCESS_NAME="{{ gsProcessName }}"
+
+### Functions
+# Get the server process ID
+function getServerPID {
+  local SERVER_PID=$(ps -ef | grep -v grep | grep $SERVER_PROCESS_NAME | head -1 | awk '{ print $2 }')
+  if [ -z "$SERVER_PID" ]; then
+    echo "N/A"
+  else
+    echo $SERVER_PID
+  fi
+}
+
+# Stop running servers
+function stopRunningServer {
+  echo "##########"
+  echo "Stopping running server"
+  echo "##########"
+  while [ "$(getServerPID)" != "N/A" ]; do
+    SERVER_PID=$(getServerPID)
+    if [ "$SERVER_PID" == "N/A" ]; then
+      echo "Server not running"
+      exit 0
+    fi
+    if [ -d "/proc/$SERVER_PID" ]; then
+      echo "Trying gracefull shutdown [$SERVER_PID]"
+      kill -s HUP $SERVER_PID
+      sleep 1
+    fi
+    if [ -d "/proc/$SERVER_PID" ]; then
+      echo "Process still alive... Trying again [$SERVER_PID]"
+      kill -s INT $SERVER_PID
+      sleep 1
+    fi
+    if [ -d "/proc/$SERVER_PID" ]; then
+      echo "Process still alive... Purging it [$SERVER_PID]"
+      kill -s KILL $SERVER_PID
+      sleep 1
+    fi
+    if [ -d "/proc/$SERVER_PID" ]; then
+      echo "Can't stop the process. Something is worong..."
+      exit 1
+    fi
+  done
+}
+
+# Update server
+function updateServer {
+  if [ "$(getServerPID)" != "N/A" ]; then
+    stopRunningServer
+  fi
+  echo "##########"
+  echo "Updating server files to latest"
+  echo "##########"
+  exec sudo steamcmd +login anonymous +force_install_dir {{ gsDirectory }} +app_update {{ gsID }} validate +quit
+}
+
+# Launch server
+function startServer {
+  if [ "$(getServerPID)" != "N/A" ]; then
+    stopRunningServer
+  fi
+  echo "##########"
+  echo "Launching server"
+  echo "##########"
+  exec nohup sudo su - {{ gsUserName }} -s /bin/bash -c 'cd {{ gsDirectory }} \
+    && Insurgency/Binaries/Linux/InsurgencyServer-Linux-Shipping \
+      -Port={{ gsGamePort }} \
+      -QueryPort={{ gsQueryPort }} \
+      -log \
+      -hostname="{{ gsServerName }}" \
+      -GSLTToken={{ gsGSLT }} \
+      {{ gsAdditionalParameters }} \
+      &'
+      &>/dev/null
+}
+
+
+
+### Handler
+case $1 in
+start)
+  startServer
+  ;;
+stop)
+  stopRunningServer
+  ;;
+restart)
+  startServer
+  ;;
+update)
+  updateServer
+  ;;
+*)
+  echo "Can't figure out what you want to do..."
+  echo "Usage: $0 [start|stop|restart|update]"
+  ;;
+esac
