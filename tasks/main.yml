@@ -27,13 +27,13 @@
   block:
   - name: Open firewall ports
     firewalld:
-      port: "{{ item }}/tcp"
+      port: "{{ item }}"
       permanent: yes
       state: enabled
       immediate: true
     loop:
-      - "{{ gsGamePort }}"
-      - "{{ gsQueryPort }}"
+      - "{{ gsGamePort }}/tcp"
+      - "{{ gsQueryPort }}/udp"
 
   - name: Create the game server directory
     file:
