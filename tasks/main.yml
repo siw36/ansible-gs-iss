@@ -2,11 +2,26 @@
 - name: Check availability of SteamCMD
   shell: which steamcmd
   register: steamCheck
+  ignore_errors: true
+  changed_when: false
 
 - name: Fail when SteamCMD is not available
   fail:
     msg: SteamCMD was not found on target machine.
   when: steamCheck.rc != 0
+
+- name: Install dependencies
+  package:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - "{{ gsDependencies }}"
+
+- name: Start and enable firewalld
+  systemd:
+    name: firewalld
+    state: started
+    enabled: true
 
 - name: Initial install block
   block:

@@ -9,3 +9,5 @@ gsServerName: ISS Serevr deployed with the ansible role siw36.ansible_gs_iss
 gsCustomConfig: false
 gsConfigChange: false
 gsProcessName: InsurgencyServer-Linux-Shipping
+gsDependencies:
+  - firewalld
