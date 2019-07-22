@@ -63,8 +63,9 @@ function startServer {
     stopRunningServer
   fi
   echo "##########"
-  echo "Launching server"
+  echo "Launching server in background"
   echo "##########"
+  echo "Logging to {{ gsDirectory }}/iss_server_$(date +%d-%m-%y--%H-%M-%S).log"
   exec nohup sudo su - {{ gsUserName }} -s /bin/bash -c 'cd {{ gsDirectory }} \
     && Insurgency/Binaries/Linux/InsurgencyServer-Linux-Shipping \
       -Port={{ gsGamePort }} \
@@ -73,8 +74,7 @@ function startServer {
       -hostname="{{ gsServerName }}" \
       -GSLTToken={{ gsGSLT }} \
       {{ gsAdditionalParameters }} \
-      &'
-      &>/dev/null
+      ' &> iss_server_$(date +%d-%m-%y--%H-%M-%S).log&
 }
 
 
