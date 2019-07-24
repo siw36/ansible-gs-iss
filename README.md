@@ -1,6 +1,8 @@
 ansible-gs-iss
 =========
 
+![Ansible Role](https://img.shields.io/ansible/role/42204.svg?color=blue) ![Ansible Quality Score](https://img.shields.io/ansible/quality/42204.svg?color=blue) ![Ansible Role](https://img.shields.io/ansible/role/d/42204.svg?color=blue)
+
 ![Insurgency Sandstorm](https://steamcdn-a.akamaihd.net/steam/apps/581320/header.jpg)
 
 This role installs a Insurgency Sandstorm server.  
