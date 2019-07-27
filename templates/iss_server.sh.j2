@@ -74,7 +74,7 @@ function startServer {
       -hostname="{{ gsServerName }}" \
       -GSLTToken={{ gsGSLT }} \
       {{ gsAdditionalParameters }} \
-      ' &> iss_server_$(date +%d-%m-%y--%H-%M-%S).log&
+      ' &> {{ gsDirectory }}/iss_server_$(date +%d-%m-%y--%H-%M-%S).log&
 }
 
 

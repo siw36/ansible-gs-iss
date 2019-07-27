@@ -63,27 +63,30 @@
 
 # Server configuration
 - name: Create a admin list
-  lineinfile:
-    path: "{{ gsDirectory }}/Insurgency/Config/Server/Admins.txt"
-    line: "{{ item }}"
-    create: true
-  loop:
-    - "{{ gsAdminList }}"
+  template:
+    src: templates/Admins.txt.j2
+    dest: "{{ gsDirectory }}/Insurgency/Config/Server/Admins.txt"
+    owner: "{{ gsUserName }}"
+    group: "{{ gsUserGroup }}"
+    mode: 0660
   when: gsAdminList is defined and gsAdminList | length > 0
 
 - name: Create a map rotation list
-  lineinfile:
-    path: "{{ gsDirectory }}/Insurgency/Config/Server/Admins.txt"
-    line: "{{ item }}"
-    create: true
-  loop:
-    - "{{ gsMapCycleList }}"
+  template:
+    src: templates/MapCycle.txt.j2
+    dest: "{{ gsDirectory }}/Insurgency/Config/Server/MapCycle.txt"
+    owner: "{{ gsUserName }}"
+    group: "{{ gsUserGroup }}"
+    mode: 0660
   when: gsMapCycleList is defined and gsMapCycleList | length > 0
 
 - name: Copy a customized Game.ini
   copy:
     src: files/custom_Game.ini
     dest:  "{{ gsDirectory }}/Insurgency/Config/Server/Game.ini"
+    owner: "{{ gsUserName }}"
+    group: "{{ gsUserGroup }}"
+    mode: 0660
   when: gsCustomConfig | bool
 
 - name: Start the server
