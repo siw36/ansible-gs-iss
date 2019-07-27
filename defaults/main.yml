@@ -7,7 +7,7 @@ gsQueryPort: 27131
 gsGamePort: 27102
 gsMaxPlayers: 16
 gsInitialMap: Ministry?Scenario_Ministry_Skirmish
-gsServerName: ISS Serevr deployed with the ansible role siw36.ansible_gs_iss
+gsServerName: ISS Server deployed with the ansible role siw36.ansible_gs_iss
 gsCustomConfig: false
 gsConfigChange: false
 gsProcessName: InsurgencyServer-Linux-Shipping

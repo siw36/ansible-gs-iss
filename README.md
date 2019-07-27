@@ -31,7 +31,7 @@ Role Variables
 | Name | Description | Default value |
 |---|---|---|
 | gsGSLT | Steam game server token. [Doc](https://steamcommunity.com/dev/managegameservers) | <none - __required__ to be set> |
-| gsServerName | The name of the server | "ISS Serevr deployed with the ansible role siw36.ansible_gs_iss" |
+| gsServerName | The name of the server | "ISS Server deployed with the ansible role siw36.ansible_gs_iss" |
 | gsGamePort | The main server port | 27102 |
 | gsQueryPort | The server query port. Used to get information about the server status | 27131 |
 | gsPassword | Password to join the Server | <none - not required> |
