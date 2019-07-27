@@ -68,7 +68,7 @@ function startServer {
   echo "Logging to {{ gsDirectory }}/iss_server_$(date +%d-%m-%y--%H-%M-%S).log"
   exec nohup sudo su - {{ gsUserName }} -s /bin/bash -c 'cd {{ gsDirectory }} \
     && Insurgency/Binaries/Linux/InsurgencyServer-Linux-Shipping \
-      {{ gsInitialMap }}?MaxPlayers={{ gsMaxPlayers }}{% if gsPassword is defined %}?password="{{ gsPassword }}{% endif %}" \
+      {{ gsInitialMap }}?MaxPlayers={{ gsMaxPlayers }}{% if gsPassword is defined %}?password="{{ gsPassword }}"{% endif %} \
       -Port={{ gsGamePort }} \
       -QueryPort={{ gsQueryPort }} \
       -log \
