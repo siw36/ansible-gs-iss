@@ -34,7 +34,10 @@ Role Variables
 | gsServerName | The name of the server | "ISS Serevr deployed with the ansible role siw36.ansible_gs_iss" |
 | gsGamePort | The main server port | 27102 |
 | gsQueryPort | The server query port. Used to get information about the server status | 27131 |
+| gsPassword | Password to join the Server | <none - not required> |
+| gsMaxPlayers | Maximum amount of players | 16 |
 | gsAdminList | A list of SteamID64 account IDs that should get admin privileges on the server | <none - not required> |
+| gsInitialMap | The initial map the server should start with | Ministry?Scenario_Ministry_Skirmish |
 | gsMapCycleList | A list of maps for the server to cycle through | All maps and modes |
 | gsAdditionalParameters | Additional start parameters for the server | <none - not required> |
 | gsCustomConfig | Set this parameter to `true` if you have written a custom configuration file in `<role path>/files/custom_Game.ini` | false |
