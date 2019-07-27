@@ -42,6 +42,13 @@
       owner: "{{ gsUserName }}"
       group: "{{ gsUserGroup }}"
 
+  - name: Create the game server logging directory
+    file:
+      path: "{{ gsDirectory }}/logs"
+      state: directory
+      owner: "{{ gsUserName }}"
+      group: "{{ gsUserGroup }}"
+
   - name: Install the game server files
     shell: "steamcmd +login anonymous +force_install_dir {{ gsDirectory }} +app_update {{ gsID }} validate +quit"
     args:
