@@ -33,6 +33,7 @@
       immediate: true
     loop:
       - "{{ gsGamePort }}/tcp"
+      - "{{ gsGamePort }}/udp"
       - "{{ gsQueryPort }}/udp"
 
   - name: Create the game server directory
