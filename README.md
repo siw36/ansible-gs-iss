@@ -43,6 +43,10 @@ Role Variables
 | gsCustomConfig | Set this parameter to `true` if you have written a custom configuration file in `<role path>/files/custom_Game.ini` | false |
 | gsConfigChange | Set this parameter if you want to restart the server with a new custom config file without the installation tasks | false |
 
+Common start parameters (`gsAdditionalParameters`):  
+- `-GameStats`: Used when you have set the GSLT to enable XP gain on your server
+- `-ruleset=OfficialRules`: Used to enable the official rule set
+
 Dependencies
 ------------
 
@@ -62,9 +66,23 @@ Example Playbook
 
 Install steamcmd and the iss game server:  
 ```yaml
-- hosts: gameserver-iss
-  become: true
+- hosts: iss-server
   gather_facts: true
+  become: true
+  vars:
+    gsGSLT: xxxxxxxxxxxxxxxxxxxxxxxxxx
+    gsServerName: 'My ISS game server'
+    gsAdminList:
+      - xxxxxxxxxxxxxx
+    gsMapCycleList:
+      - Scenario_Ministry_Skirmish
+      - Scenario_Crossing_Skirmish
+      - Scenario_Hideout_Skirmish
+      - Scenario_Precinct_Skirmish
+      - Scenario_Refinery_Skirmish
+      - Scenario_Farmhouse_Skirmish
+      - Scenario_Summit_Skirmish
+    gsAdditionalParameters: "-ruleset=OfficialRules -GameStats"
   roles:
     - siw36.ansible_steamcmd
     - siw36.ansible_gs_iss
