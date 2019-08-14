@@ -101,3 +101,9 @@
   shell: "/home/steam/iss_server.sh start"
   args:
     executable: /bin/bash
+
+- name: Create a cronjob to start the game server in case of a server restart
+  cron:
+    name: "Start the game server"
+    special_time: reboot
+    job: "/home/steam/iss_server.sh start"
